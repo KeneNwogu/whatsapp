@@ -11,6 +11,6 @@ export class AuthService {
     async verifySupabaseAccessToken(token: string){
         const { data, error } = await AuthService.supabaseClient.auth.getUser(token);
         if (error) throw new Error(error.message)
-        return data
+        return { id: data.user.id, username: data.user.user_metadata.username }
     }
 }
