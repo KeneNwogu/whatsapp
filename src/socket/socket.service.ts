@@ -1,5 +1,7 @@
+import { Application } from "express";
 import { Server, Socket } from "socket.io";
 import { AuthService } from "../auth/auth.service";
+import { Server as HttpServer } from "http";
 
 interface UserContext {
     id: string
@@ -15,8 +17,8 @@ export class SocketService {
     constructor(){
         this.authService = new AuthService()
     }
-    static async createSocketServer(){
-        return new Server({
+    static createSocketServer(expressServer: HttpServer){
+        return new Server(expressServer, {
             cors: {
                 origin: '*'
             }
