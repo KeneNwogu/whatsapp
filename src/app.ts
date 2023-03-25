@@ -9,6 +9,8 @@ app.use(cors({
     origin: '*'
 }))
 
+app.use()
+
 const server = createServer(app)
 
 const io = SocketService.createSocketServer(server)

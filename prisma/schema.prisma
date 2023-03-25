@@ -13,11 +13,13 @@ datasource db {
 
 model User {
   id String @id @default(uuid())
-  supabaseId String
+  supabaseId String @unique
+  profilePicture String?
   username String
   rooms Room[]
   isActive Boolean @default(false)
   activeSocketId String?
+  lastActive DateTime @default(now())
 }
 
 model Room {
