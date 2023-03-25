@@ -10,7 +10,7 @@ export class UserService {
 
     }
 
-    async setUserLastActiveStatus(supabaseId: string, username: string) {
+    async setUserLastActiveStatus(supabaseId: string, username: string, profilePicture: string) {
         const user = await prisma.user.upsert({
             where: {
                 supabaseId
@@ -20,9 +20,12 @@ export class UserService {
             },
             create: {
                 supabaseId,
-                username
+                username,
+                profilePicture
             },
         })
+
+        return user
     }
 
     async searchUsersByUsername(searchTerm: string){

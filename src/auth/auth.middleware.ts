@@ -24,6 +24,7 @@ export class AuthMiddleware {
             const token = authorization.split(' ')[1]
             const user = await this.authService.verifySupabaseAccessToken(token)
             req.user = user
+            next()
         }
         catch(e){
             return res.sendStatus(401).end()

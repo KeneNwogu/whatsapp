@@ -12,6 +12,7 @@ type User {
     username: String!
     supabaseId: String!
     lastActive: Date!
+    profilePicture: String!
 }
 
 type Mutation {
