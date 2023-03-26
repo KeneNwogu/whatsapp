@@ -6,6 +6,9 @@ import { createServer } from 'http'
 import { SocketService } from './socket/socket.service'
 import { schema } from './graphql/schema'
 import { resolvers } from './graphql/resolvers'
+import { AuthMiddleware } from './auth/auth.middleware'
+
+const authMiddleware = new AuthMiddleware()
 
 
 const app: Application = express()
@@ -13,7 +16,7 @@ app.use(cors({
     origin: '*'
 }))
 
-app.use('/graphql', graphqlHTTP({
+app.use('/graphql', authMiddleware.jwtMiddleware, graphqlHTTP({
    schema: schema,
    rootValue: resolvers,
    graphiql: true 

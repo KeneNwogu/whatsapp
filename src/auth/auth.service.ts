@@ -3,10 +3,17 @@ import SupabaseClient from "@supabase/supabase-js/dist/module/SupabaseClient";
 
 
 export class AuthService {
-    private static readonly supabaseUrl = 'https://your-supabase-url.com';
-    private static readonly supabaseKey = 'your-supabase-key';
+    private static readonly supabaseUrl = process.env.SUPABASE_URL;
+    private static readonly supabaseKey = process.env.SUPABASE_KEY;
 
-    static supabaseClient: SupabaseClient = createClient(AuthService.supabaseUrl, AuthService.supabaseKey);
+    static supabaseClient: SupabaseClient
+
+    constructor(){
+        if(!AuthService.supabaseUrl) throw new Error("Supabase url must be defined")
+        if(!AuthService.supabaseKey) throw new Error("Supabase key must be defined")
+        
+        AuthService.supabaseClient = createClient(AuthService.supabaseUrl, AuthService.supabaseKey);
+    }
 
     async verifySupabaseAccessToken(token: string){
         const { data, error } = await AuthService.supabaseClient.auth.getUser(token);

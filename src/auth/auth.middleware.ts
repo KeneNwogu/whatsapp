@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from "express"
 import { AuthService } from "./auth.service"
 
 interface IRequest extends Request {
-    user: {
+    user?: {
         id: string,
         username: string,
         profilePicture: string
