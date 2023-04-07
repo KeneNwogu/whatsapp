@@ -1,6 +1,8 @@
 import { createClient } from "@supabase/supabase-js";
 import SupabaseClient from "@supabase/supabase-js/dist/module/SupabaseClient";
+import dotenv from "dotenv"
 
+dotenv.config()
 
 export class AuthService {
     private static readonly supabaseUrl = process.env.SUPABASE_URL;
@@ -11,7 +13,7 @@ export class AuthService {
     constructor(){
         if(!AuthService.supabaseUrl) throw new Error("Supabase url must be defined")
         if(!AuthService.supabaseKey) throw new Error("Supabase key must be defined")
-        
+
         AuthService.supabaseClient = createClient(AuthService.supabaseUrl, AuthService.supabaseKey);
     }
 
