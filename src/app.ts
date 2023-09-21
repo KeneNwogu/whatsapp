@@ -1,4 +1,5 @@
 import express from 'express'
+import "express-async-errors";
 import { graphqlHTTP } from 'express-graphql'
 import { Application } from 'express'
 import cors from 'cors'
@@ -6,15 +7,23 @@ import { createServer } from 'http'
 import { SocketService } from './socket/socket.service'
 import { schema } from './graphql/schema'
 import { resolvers } from './graphql/resolvers'
-// import { AuthMiddleware } from './auth/auth.middleware'
+import routes from './routes/v1/routes'
 import dotenv from "dotenv"
+import { errorHandler } from './middlewares/errorHandler'
 
 dotenv.config()
-
-// const authMiddleware = new AuthMiddleware()
-
+declare global {
+    namespace Express {
+      interface Request {
+        user: any;
+        // token: Jwt | string;
+      }
+    }
+}
 
 const app: Application = express()
+
+app.use(express.json());
 app.use(cors({
     origin: '*'
 }))
@@ -27,9 +36,12 @@ app.use('/graphql', graphqlHTTP({
    graphiql: true 
 }))
 
+app.use("/api/v1", routes);
+
+app.use(errorHandler)
+
 const server = createServer(app)
 
-const io = SocketService.createSocketServer(server)
-
+export const io = SocketService.createSocketServer(server)
 
 export default app
