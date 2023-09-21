@@ -3,9 +3,6 @@
   "version": "1.0.0",
   "description": "Whatsapp Backend Clone built with Socket.io",
   "main": "index.js",
-  "engines": {
-    "node": ">=16.0.0 <17.0.0"
-  },
   "scripts": {
     "test": "npm run tests",
     "start": "nodemon src/index.ts"
