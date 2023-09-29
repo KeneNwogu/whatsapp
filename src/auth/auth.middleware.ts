@@ -3,6 +3,7 @@ import { AuthService } from "./auth.service"
 
 interface IRequest extends Request {
     user: any
+    headers: any
 }
 
 export class AuthMiddleware {
