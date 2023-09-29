@@ -47,7 +47,7 @@ export const resolvers = {
     
     async updateUserLastActiveStatus(args: any, request: IRequest){
         request = await authMiddleware.authenticateRequest(request)
-        return await userService.setUserLastActiveStatus(request.user.id, request.user.username, request.user.profilePicture)
+        // return await userService.setUserLastActiveStatus(request.user.id, request.user.username, request.user.profilePicture)
     },
     async searchUsers(args: any){
         const searchTerm = args.searchTerm

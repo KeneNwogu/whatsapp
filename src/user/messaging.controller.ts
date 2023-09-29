@@ -8,14 +8,16 @@ import { NotFoundError } from "../errors/not-found-error";
 export class MessageController{
     // TODO: separate to Message controller
     static async getUserChats(req: Request, res: Response){
-        const chats = await MessageService.getAllUserRooms(req.user.id)
-        return res.json({ chats })
+        const rooms = await MessageService.getAllUserRooms(req.user.id)
+        return res.json({ rooms })
     }
 
     static async createPrivateRoom(req: Request, res: Response){
         let { receiverId, initializeWithMessage } = req.body
+        console.log(req.body)
         let senderId = req.user.id
 
+        if(receiverId === senderId) throw new BadRequestError("can not message yourself")
         if(!await UserService.getUserById(receiverId)) throw new NotFoundError("no user with id was found")
 
         let room = await MessageService.createPrivateRoom(senderId, receiverId)
