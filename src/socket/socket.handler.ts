@@ -12,7 +12,7 @@ export class SocketHandler {
 
     handleInitialConversation(){
         // check if user to message exists in a private room with current user
-        const room = prisma.room.find({})
+        // const room = prisma.room.f({})
     }
 
     subscribeToUser(){
