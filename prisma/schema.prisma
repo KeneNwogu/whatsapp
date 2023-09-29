@@ -13,12 +13,13 @@ datasource db {
 
 model User {
   id String @id @default(uuid())
-  // supabaseId String @unique
   email String @unique
   profilePicture String?
   firstName String
   lastName String
+  username String?
   rooms Room[]
+  messages Message[]
   isActive Boolean @default(false)
   activeSocketId String?
   lastActive DateTime @default(now())
@@ -29,7 +30,6 @@ model Room {
   users User[]
   messages Message[]
   name String?
-  identifier String @default(uuid())
   group Boolean @default(false)
   statusBroadcastRoom Boolean @default(false)
 }
@@ -40,7 +40,10 @@ model Message {
   roomId String
   forwarded Boolean @default(false)
   contentAttachment String?
-  message String @default("")
+  message String
+  createdAt DateTime @default(now())
+  user User @relation(fields: [userId], references: [id])
+  userId String
 }
 
 

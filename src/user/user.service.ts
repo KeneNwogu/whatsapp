@@ -2,8 +2,8 @@ import { prisma } from "../db/db.client";
 import { getCurrentDate } from "../helpers/utils";
 
 export class UserService {
-    async getUsers() {
-
+    static async getAllUsers() {
+        return await prisma.user.findMany()
     }
 
     static async getUserById(id: string) {
@@ -14,22 +14,8 @@ export class UserService {
         return await prisma.user.findUnique({ where: { email }})
     }
 
-    async setUserLastActiveStatus(supabaseId: string, username: string, profilePicture: string) {
-        // const user = await prisma.user.upsert({
-        //     where: {
-        //         supabaseId
-        //     },
-        //     update: {
-        //         lastActive: getCurrentDate()
-        //     },
-        //     create: {
-        //         supabaseId,
-        //         username,
-        //         profilePicture
-        //     },
-        // })
-
-        // return user
+    static async updateUser(userId: string, user: { lastActive?: Date, isActive: boolean }) {
+        return await prisma.user.update({ where: { id: userId }, data: user })
     }
 
     async searchUsersByUsername(searchTerm: string){

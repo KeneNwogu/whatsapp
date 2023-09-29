@@ -28,7 +28,7 @@ app.use(cors({
     origin: '*'
 }))
 
-// app.use(authMiddleware.jwtMiddleware)
+app.get('/health', (req, res) => res.sendStatus(200))
 
 app.use('/graphql', graphqlHTTP({
    schema: schema,
@@ -42,6 +42,6 @@ app.use(errorHandler)
 
 const server = createServer(app)
 
-export const io = SocketService.createSocketServer(server)
+export const io = new SocketService(server)
 
-export default app
+export default server

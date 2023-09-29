@@ -8,9 +8,6 @@ app.listen(port, async () => {
     console.log(`Server listening on http://localhost:${port}`)
 })
 
-app.get('/health', (req, res) => res.sendStatus(200))
-
-
 process.on('SIGINT', async () => {
     await prisma.$disconnect()
     process.exit(0)

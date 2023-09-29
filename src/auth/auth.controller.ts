@@ -5,6 +5,7 @@ import querystring from 'querystring';
 import url from 'url';
 import axios from 'axios';
 import { UserService } from "../user/user.service";
+import { dateToUTCDate } from "../helpers/utils";
 
 export default class AuthController {
     static async getSocialLoginRedirectLink(req: Request, res: Response){
@@ -83,13 +84,15 @@ export default class AuthController {
         const email = providerData.userInfo.email(response.data)
         const { firstName, lastName } = providerData.userInfo.profile(response.data)
         let user = await UserService.getUserByEmail(email)
-
+        let newUser = false
         if(!user){
             // create user
+            newUser = true
             user = await AuthService.createUser(email, firstName, lastName)
         }
 
-        const token = await AuthService.createAuthJWT(user?.id!, user?.email!)
+        await UserService.updateUser(user.id, { lastActive: dateToUTCDate(new Date()), isActive: true })
+        const token = await AuthService.createAuthJWT(user?.id!, user?.email!, newUser)
         const qs = querystring.stringify({ "token": token, "userId": user?.id })
         return res.redirect(`${FRONTEND_URL}/login/success/?${qs}`)
     }

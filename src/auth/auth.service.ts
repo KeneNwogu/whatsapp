@@ -68,9 +68,9 @@ export class AuthService {
         }})
     }
 
-    static async createAuthJWT(id: string, email: string): Promise<string>{
+    static async createAuthJWT(id: string, email: string, newUser?: boolean): Promise<string>{
         return new Promise((resolve, reject) => {
-            jwt.sign({ id, email }, process.env.JWT_TOKEN_SECRET!, { expiresIn: '6h'}, 
+            jwt.sign({ id, email, newUser }, process.env.JWT_TOKEN_SECRET!, { expiresIn: '6h'}, 
                 (error, token) => {
                     if (error) {
                         reject(error);
