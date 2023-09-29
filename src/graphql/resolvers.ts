@@ -13,6 +13,7 @@ interface IRequest extends Request{
         username: string,
         profilePicture: string
     }
+    headers: any
 }
 
 function resolverMiddlewareDecorator(middleware: Function, fn: Function) {
